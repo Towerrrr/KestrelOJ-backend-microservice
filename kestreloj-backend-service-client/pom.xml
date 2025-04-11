@@ -39,6 +39,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.t0r</groupId>
+            <artifactId>kestreloj-backend-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.t0r</groupId>
+            <artifactId>kestreloj-backend-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -75,11 +86,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
-                    <mainClass>com.t0r.kestrelojbackendserviceclient.KestrelojBackendServiceClientApplication
-                    </mainClass>
-                    <skip>true</skip>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>
