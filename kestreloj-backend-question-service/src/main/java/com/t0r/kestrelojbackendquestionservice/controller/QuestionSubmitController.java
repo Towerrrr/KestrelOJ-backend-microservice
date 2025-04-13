@@ -11,7 +11,7 @@ import com.t0r.kestrelojbackendmodel.model.entity.QuestionSubmit;
 import com.t0r.kestrelojbackendmodel.model.entity.User;
 import com.t0r.kestrelojbackendmodel.model.vo.QuestionSubmitVO;
 import com.t0r.kestrelojbackendquestionservice.service.QuestionSubmitService;
-import com.t0r.kestrelojbackendserviceclient.service.UserService;
+import com.t0r.kestrelojbackendserviceclient.service.UserFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * 题目提交接口
  */
 @RestController
-@RequestMapping("/question_submit")
+@RequestMapping("/submit")
 @Slf4j
 public class QuestionSubmitController {
 
@@ -33,7 +33,7 @@ public class QuestionSubmitController {
     private QuestionSubmitService questionSubmitService;
 
     @Resource
-    private UserService userService;
+    private UserFeignClient userFeignClient;
 
     /**
      * 提交题目
@@ -49,7 +49,7 @@ public class QuestionSubmitController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         // 登录才能点赞
-        final User loginUser = userService.getLoginUser(request);
+        final User loginUser = userFeignClient.getLoginUser(request);
         long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
         return ResultUtils.success(questionSubmitId);
     }
@@ -69,7 +69,7 @@ public class QuestionSubmitController {
         // 从数据库中查询原始的题目提交分页信息
         Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
                 questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userFeignClient.getLoginUser(request);
         // 返回脱敏信息
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }

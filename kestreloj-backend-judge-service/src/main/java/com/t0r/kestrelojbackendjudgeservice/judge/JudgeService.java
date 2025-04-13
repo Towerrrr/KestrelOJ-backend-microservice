@@ -5,7 +5,7 @@ import com.t0r.kestrelojbackendmodel.model.entity.QuestionSubmit;
 /**
  * 判题服务
  */
-public interface Judgeservice {
+public interface JudgeService {
 
     /**
      * 判题
