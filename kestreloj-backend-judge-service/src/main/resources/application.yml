@@ -45,6 +45,7 @@ server:
     session:
       cookie:
         max-age: 2592000
+        path: /api
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
@@ -57,14 +58,6 @@ mybatis-plus:
 # 接口文档配置
 knife4j:
   enable: true
-  openapi:
-    title: "接口文档"
-    version: 1.0
-    group:
-      default:
-        api-rule: package
-        api-rule-resources:
-          - com.t0r.kestreloj.controller
 # 代码沙箱配置
 codesandbox:
   type: default
