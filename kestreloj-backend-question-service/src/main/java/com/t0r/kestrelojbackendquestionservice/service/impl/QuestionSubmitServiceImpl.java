@@ -17,6 +17,7 @@ import com.t0r.kestrelojbackendmodel.model.enums.QuestionSubmitLanguageEnum;
 import com.t0r.kestrelojbackendmodel.model.enums.QuestionSubmitStatusEnum;
 import com.t0r.kestrelojbackendmodel.model.vo.QuestionSubmitVO;
 import com.t0r.kestrelojbackendquestionservice.mapper.QuestionSubmitMapper;
+import com.t0r.kestrelojbackendquestionservice.rabbitmq.MyMessageProducer;
 import com.t0r.kestrelojbackendquestionservice.service.QuestionService;
 import com.t0r.kestrelojbackendquestionservice.service.QuestionSubmitService;
 import com.t0r.kestrelojbackendserviceclient.service.JudgeFeignClient;
@@ -28,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +49,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     @Lazy
     private JudgeFeignClient judgeFeignClient;
+
+    @Resource
+    MyMessageProducer myMessageProducer;
 
     /**
      * 提交题目
@@ -91,11 +94,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         }
 
         Long questionSubmitId = questionSubmit.getId();
+        // 发送消息
+        myMessageProducer.sendMessage("code_exchange", "my_routingKey", String.valueOf(questionSubmitId));
         // 执行判题服务
-        judgeFeignClient.doJudge(questionSubmitId);
-        CompletableFuture.runAsync(() -> {
-            judgeFeignClient.doJudge(questionSubmitId);
-        });
+//        CompletableFuture.runAsync(() -> {
+//            judgeFeignClient.doJudge(questionSubmitId);
+//        });
         return questionSubmitId;
     }
 
