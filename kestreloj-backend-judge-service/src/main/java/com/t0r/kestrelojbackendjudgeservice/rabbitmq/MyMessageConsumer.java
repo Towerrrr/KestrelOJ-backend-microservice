@@ -26,7 +26,7 @@ public class MyMessageConsumer {
      * @param deliveryTag
      */
     @SneakyThrows
-    @RabbitListener(queues = "{code_queue}", ackMode = "MANUAL")
+    @RabbitListener(queues = "code_queue", ackMode = "MANUAL")
     public void receiveMessage(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) {
         log.info("Received message: {}", message);
         long questionId = Long.parseLong(message);
