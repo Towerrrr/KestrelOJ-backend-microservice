@@ -18,8 +18,9 @@ public class InitRabbitMq {
         try{
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost("localhost");
-            Connection connection = factory.newConnection();
-            Channel channel = connection.createChannel();
+            Channel channel;
+            try (Connection connection = factory.newConnection()) {
+                channel = connection.createChannel();
             String EXCHANGE_NAME = "code_exchange";
             channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 
@@ -28,6 +29,7 @@ public class InitRabbitMq {
             channel.queueDeclare(queueName, true, false, false, null);
             channel.queueBind(queueName, EXCHANGE_NAME, "my_routedKey");
             log.info("创建交换机和队列成功");
+            }
         } catch (IOException | TimeoutException e) {
             log.error("创建交换机和队列失败", e);
             throw new RuntimeException(e);
