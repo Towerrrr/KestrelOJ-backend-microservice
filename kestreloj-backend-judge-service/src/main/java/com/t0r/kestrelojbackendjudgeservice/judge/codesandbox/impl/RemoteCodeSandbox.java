@@ -7,11 +7,13 @@ import com.t0r.kestrelojbackendcommon.exception.BusinessException;
 import com.t0r.kestrelojbackendjudgeservice.judge.codesandbox.CodeSandbox;
 import com.t0r.kestrelojbackendmodel.model.codesandbox.ExecuteCodeRequest;
 import com.t0r.kestrelojbackendmodel.model.codesandbox.ExecuteCodeResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * 远程代码沙箱
  */
+@Slf4j
 public class RemoteCodeSandbox implements CodeSandbox {
 
     // 定义鉴权请求头和密钥
@@ -21,8 +23,8 @@ public class RemoteCodeSandbox implements CodeSandbox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
-        System.out.println("执行远程代码沙箱");
-        String url = "http://localhost:8080/executeCode";
+        log.info("执行远程代码沙箱");
+        String url = "http://192.168.79.130:8080/executeCode";
         String json = JSONUtil.toJsonStr(executeCodeRequest);
         String responseStr = HttpUtil.createPost(url)
                 .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)

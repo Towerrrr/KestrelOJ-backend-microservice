@@ -65,4 +65,4 @@ knife4j:
   enable: true
 # 代码沙箱配置
 codesandbox:
-  type: default
+  type: remote
