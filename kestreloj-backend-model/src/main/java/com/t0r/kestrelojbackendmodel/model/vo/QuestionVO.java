@@ -1,5 +1,6 @@
 package com.t0r.kestrelojbackendmodel.model.vo;
 
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -121,10 +122,19 @@ public class QuestionVO implements Serializable {
         }
         QuestionVO questionVO = new QuestionVO();
         BeanUtils.copyProperties(question, questionVO);
-        List<String> tagList = JSONUtil.toList(question.getTags(), String.class);
+        JSONArray jsonArray = JSONUtil.parseArray(question.getTags());
+        List<String> tagList = JSONUtil.toList(jsonArray, String.class);
         questionVO.setTags(tagList);
+
         String judgeConfigStr = question.getJudgeConfig();
-        questionVO.setJudgeConfig(JSONUtil.toBean(judgeConfigStr, JudgeConfig.class));
+        JSONArray configArray = JSONUtil.parseArray(judgeConfigStr);
+        if (configArray.isEmpty()) {
+            questionVO.setJudgeConfig(null);
+        } else {
+            // todo 先拿configArray的第一个元素，后续再处理
+            String configStr = configArray.get(0).toString();
+            questionVO.setJudgeConfig(JSONUtil.toBean(configStr, JudgeConfig.class));
+        }
         return questionVO;
     }
 
