@@ -63,7 +63,7 @@ public class QuestionController {
         if (judgeCase != null) {
             question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
         }
-        List<JudgeConfig> judgeConfig = questionAddRequest.getJudgeConfig();
+        JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
         if (judgeConfig != null) {
             question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
@@ -124,7 +124,7 @@ public class QuestionController {
         if (judgeCase != null) {
             question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
         }
-        List<JudgeConfig> judgeConfig = questionUpdateRequest.getJudgeConfig();
+        JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
         if (judgeConfig != null) {
             question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
