@@ -127,14 +127,8 @@ public class QuestionVO implements Serializable {
         questionVO.setTags(tagList);
 
         String judgeConfigStr = question.getJudgeConfig();
-        JSONArray configArray = JSONUtil.parseArray(judgeConfigStr);
-        if (configArray.isEmpty()) {
-            questionVO.setJudgeConfig(null);
-        } else {
-            // todo 先拿configArray的第一个元素，后续再处理
-            String configStr = configArray.get(0).toString();
-            questionVO.setJudgeConfig(JSONUtil.toBean(configStr, JudgeConfig.class));
-        }
+        // todo 待定
+        questionVO.setJudgeConfig(JSONUtil.toBean(judgeConfigStr, JudgeConfig.class));
         return questionVO;
     }
 
